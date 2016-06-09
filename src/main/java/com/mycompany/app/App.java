@@ -15,9 +15,9 @@ public class App {
 		// Kafka connection properties
 		Properties props = new Properties();
 		props.put("bootstrap.servers", "192.168.0.150:9092");
-		props.put("zk.connect", "192.168.0.150:2181");
+		//props.put("zk.connect", "192.168.0.150:2181");
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-		props.put("value.serializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
+		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("acks", "all");
 		props.put("retries", 0);
 		props.put("batch.size", 16384);
