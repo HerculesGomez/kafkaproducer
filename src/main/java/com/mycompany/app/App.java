@@ -8,24 +8,29 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 public class App {
 
 	public static void main(String[] args) {
 
+		produce();
+		// consume();
+
+	}
+
+	private static void produce() {
 		System.out.println("Producer Test");
 
 		// Kafka connection properties
 		Properties props = new Properties();
-		props.put("bootstrap.servers", "192.168.0.150:9092");
-		props.put("zk.connect", "192.168.0.150:2181");
+		props.put("bootstrap.servers", "localhost:9092");
+		//props.put("zk.connect", "localhost:2181");
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("acks", "all");
 		props.put("retries", 0);
-		props.put("batch.size", 16384);
+		//props.put("batch.size", 16384);
 		props.put("linger.ms", 1);
 
 		Producer<String, String> producer = new KafkaProducer<String, String>(props);
@@ -38,8 +43,9 @@ public class App {
 		}
 		producer.close();
 		System.out.println("Producer closed");
-		
+	}
 
+	private static void consume() {
 		///// Consumer currently not working
 		System.out.println("\n--------------------------------------");
 		System.out.println("Starting Consumer");
@@ -59,6 +65,5 @@ public class App {
 			for (ConsumerRecord<String, String> record : records)
 				System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
 		}
-
 	}
 }
