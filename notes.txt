@@ -1,20 +1,18 @@
 bin/zookeeper-server-start.sh config/zookeeper.properties &
 
 bin/kafka-server-start.sh config/server.properties &
+
 bin/kafka-server-stop.sh config/server.properties
 
-bin/kafka-topics.sh --create --zookeeper localhost:2181/kafka --replication-factor 1 --partitions 1 --topic headshotevent4
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic headshotevent
 
 bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic headshotevent --from-beginning
 
-
 bin/kafka-topics.sh --list --zookeeper localhost:2181
 
-./bin/kafka-console-consumer.sh --zookeeper localhost:2181 \
-            --topic headshotevent \
-            --from-beginning \
-            --formatter kafka.tools.DefaultMessageFormatter \
-            --property print.key=true \
-            --property print.key=true \
-            --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer \
-            --property value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+
+
+Kafka Server Config extras
+listeners=PLAINTEXT://0.0.0.0:6667
+advertised.listeners=PLAINTEXT://192.168.0.150:6667 
