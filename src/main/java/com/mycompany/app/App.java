@@ -38,7 +38,7 @@ public class App {
 		for (int i = 0; i < 100; i++) {
 			System.out.println("Sending message: " + Integer.toString(i));
 			producer.send(new ProducerRecord<String, String>("headshotevent", Integer.toString(i),
-					"arses"));
+					"tits"));
 			System.out.println("Sent message: " + Integer.toString(i));
 		}
 		producer.close();
