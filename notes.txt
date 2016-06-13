@@ -4,6 +4,8 @@ bin/kafka-server-start.sh config/server.properties &
 
 bin/kafka-topics.sh --create --zookeeper localhost:2181/kafka --replication-factor 1 --partitions 1 --topic headshotevent4
 
+bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic headshotevent --from-beginning
+
 
 bin/kafka-topics.sh --list --zookeeper localhost:2181
 
