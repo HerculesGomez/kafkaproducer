@@ -38,16 +38,17 @@ public class AvroProducer {
 
 	public static void main(String[] args) {
 		produceAvroBytes();
+		consumeAvroBytes();
 		// produceAvroStrings();
 		// consumeSpark();
-		consumeAvroBytes();
 	}
 
 	private static void consumeAvroBytes() {
-		System.out.println("\n\nStarting Avro Byte Consumer");
+		System.out.println("\nStarting Avro Byte Consumer");
 
 		Properties props = new Properties();
-		props.put("bootstrap.servers", "192.168.0.150:9092");
+		// props.put("bootstrap.servers", "192.168.0.150:9092");
+		props.put("bootstrap.servers", "192.168.93.130:9092");
 		String consumeGroup = "cg1";
 		props.put("group.id", consumeGroup);
 		props.put("enable.auto.commit", "true");
@@ -64,6 +65,9 @@ public class AvroProducer {
 		// to subscribe to all topic.
 		consumer.assign(Arrays.asList(new TopicPartition("headshotevent4", 0)));
 
+		int recordsprocessed = 0;
+		long initialoffset = 0;
+
 		while (true) {
 
 			ConsumerRecords<String, byte[]> records = consumer.poll(100);
@@ -74,20 +78,30 @@ public class AvroProducer {
 				GenericRecord convertedrecord = recordInjection.invert(record.value()).get();
 				System.out.println(convertedrecord);
 				lastOffset = record.offset();
+				recordsprocessed++;
+				if (initialoffset == 0) {
+					initialoffset = lastOffset;
+					System.out.println("Consuming messages beginning at offset " + String.valueOf(initialoffset));
+				}
 			}
 
-			System.out.println("lastOffset read: " + lastOffset);
 			consumer.commitSync();
+			if (lastOffset == 0 && recordsprocessed > 0) {
+				System.out.println("End of Kafka records beginning from offset " + String.valueOf(initialoffset)
+						+ "\nNumber of comsumed messages: " + Integer.toString(recordsprocessed));
+				break;
+			}
 
 		}
 
 	}
 
 	private static void produceAvroBytes() {
-		System.out.println("\n\nStarting Avro Producer");
+		System.out.println("\nStarting Avro Producer");
 
 		Properties props = new Properties();
-		props.put("bootstrap.servers", "192.168.0.150:9092");
+		// props.put("bootstrap.servers", "192.168.0.150:9092");
+		props.put("bootstrap.servers", "192.168.93.130:9092");
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
 
@@ -122,10 +136,11 @@ public class AvroProducer {
 	}
 
 	private static void produceAvroStrings() {
-		System.out.println("Starting Avro Producer");
+		System.out.println("\nStarting Avro Producer");
 
 		Properties props = new Properties();
-		props.put("bootstrap.servers", "192.168.0.150:9092");
+		// props.put("bootstrap.servers", "192.168.0.150:9092");
+		props.put("bootstrap.servers", "192.168.93.130:9092");
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
