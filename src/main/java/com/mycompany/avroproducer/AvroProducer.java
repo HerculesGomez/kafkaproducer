@@ -31,7 +31,7 @@ public class AvroProducer {
 	private static String[] maps = { "swamp", "cesspit", "bridge", "lake", "farm" };
 	private static String[] gametypes = { "free for all", "team deathmatch", "capture the flag" };
 
-	public static final String USER_SCHEMA = "{" + "\"type\":\"record\"," + "\"name\":\"headshotevent\","
+	private static final String USER_SCHEMA = "{" + "\"type\":\"record\"," + "\"name\":\"headshotevent\","
 			+ "\"fields\":[" + "{\"name\":\"username\",\"type\":\"string\"},"
 			+ "{\"name\":\"gametype\",\"type\":\"string\"}," + "{\"name\":\"map\",\"type\":\"string\"},"
 			+ "{\"name\":\"timestamp\",\"type\":\"long\"}" + "]}";
