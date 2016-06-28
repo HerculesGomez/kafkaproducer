@@ -47,8 +47,8 @@ public class AvroProducer {
 
 	public static void main(String[] args) throws IOException {
 		produceAvroBytes(10);
-		consumeAvroBytesToFile("output.avro");
-		readAvroFile("output.avro");
+		//consumeAvroBytesToFile("output.avro");
+		//readAvroFile("output.avro");
 		// produceAvroStrings();
 		// consumeSpark();
 
